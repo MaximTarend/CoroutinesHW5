@@ -7,80 +7,53 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import by.hometrainng.oroutineshw5.databinding.ListItemBinding
-import by.hometrainng.oroutineshw5.databinding.LoadingItemBinding
-import by.hometrainng.oroutineshw5.model.ListItem
+import by.hometrainng.oroutineshw5.model.Character
+import coil.load
 
 class ItemAdapter(
     context: Context,
-    private val onClicked: (ListItem.Item) -> Unit
-): ListAdapter<ListItem, RecyclerView.ViewHolder>(DIFF_UTIL) {
+    private val onClicked: (Character) -> Unit
+): ListAdapter<Character, ItemViewHolder>(DIFF_UTIL) {
 
     private val layoutInflater = LayoutInflater.from(context)
 
-    override fun getItemViewType(position: Int): Int {
-        return when(getItem(position)) {
-            is ListItem.Item -> TYPE_CHARACTER
-            ListItem.Loading -> TYPE_LOADING
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType) {
-            TYPE_CHARACTER -> {
-                ItemViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        return ItemViewHolder(
                     binding = ListItemBinding.inflate(layoutInflater, parent, false),
                     onClicked = onClicked
                 )
-            }
-            TYPE_LOADING -> {
-                LoadingViewHolder(binding = LoadingItemBinding.inflate(layoutInflater, parent, false))
-            }
-            else -> {
-                error("Unknown View Type")
-            }
         }
-    }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val itemViewHolder = holder as? ItemViewHolder ?: return
-        val item = getItem(position) as? ListItem.Item ?: return
-
-        itemViewHolder.bind(item)
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
     companion object {
 
-        private const val TYPE_CHARACTER = 0
-        private const val TYPE_LOADING = 1
-
-        private val  DIFF_UTIL = object : DiffUtil.ItemCallback<ListItem>() {
-            override fun areItemsTheSame(oldItem: ListItem, newItem: ListItem): Boolean {
-                return oldItem == newItem // TODO уточнить проверку
+        private val  DIFF_UTIL = object : DiffUtil.ItemCallback<Character>() {
+            override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
+                return oldItem.id == newItem.id // TODO уточнить проверку
             }
 
-            override fun areContentsTheSame(oldItem: ListItem, newItem: ListItem): Boolean {
-                return oldItem == newItem
+            override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
+                return (oldItem.name == newItem.name && oldItem.imageURL == newItem.imageURL)
             }
-
         }
     }
 }
 
 class ItemViewHolder(
     private val binding: ListItemBinding,
-    private val onClicked: (ListItem.Item) -> Unit
+    private val onClicked: (Character) -> Unit
 ): RecyclerView.ViewHolder(binding.root) {
-    fun bind (item: ListItem.Item) {
+    fun bind (item: Character) {
         with(binding) {
+            characterName.text = item.name
+            image.load(item.imageURL)
 
-
-         root.setOnClickListener {
+            root.setOnClickListener {
              onClicked(item)
          }
         }
     }
 }
-
-class LoadingViewHolder(
-    binding: LoadingItemBinding
-) : RecyclerView.ViewHolder(binding.root)
