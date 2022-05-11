@@ -36,7 +36,8 @@ class ItemAdapter(
             }
 
             override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
-                return (oldItem.name == newItem.name && oldItem.imageURL == newItem.imageURL)
+                return oldItem == newItem
+                // (oldItem.name == newItem.name && oldItem.imageURL == newItem.imageURL)
             }
         }
     }

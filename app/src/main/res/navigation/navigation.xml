@@ -11,13 +11,13 @@
         tools:layout="@layout/fragment_list">
 
         <action
-            android:id="@+id/to_item"
-            app:destination="@+id/item"/>
+            android:id="@+id/to_character"
+            app:destination="@+id/character"/>
 
     </fragment>
 
     <fragment
-        android:id="@+id/item"
+        android:id="@+id/character"
         android:name="by.hometrainng.oroutineshw5.fragments.FragmentItem"
         tools:layout="@layout/fragment_item">
 

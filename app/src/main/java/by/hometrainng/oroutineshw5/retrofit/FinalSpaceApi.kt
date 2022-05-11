@@ -2,16 +2,17 @@ package by.hometrainng.oroutineshw5.retrofit
 
 import retrofit2.http.GET
 import retrofit2.http.Path
+import by.hometrainng.oroutineshw5.model.Character
 
 interface FinalSpaceApi {
 
     @GET("character")
-    fun getCharacters(): retrofit2.Call<List<Character>>
+    suspend fun getCharacters(): List<Character>
 
     @GET("character/{id}")
-    fun getCharacterDetails(
-        @Path("id") id: String
-    ): retrofit2.Call<Character>
+    suspend fun getCharacterDetails(
+        @Path("id") id: Int
+    ): Character
 
 
 }

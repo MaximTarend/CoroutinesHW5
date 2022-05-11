@@ -15,21 +15,21 @@
         style="@style/Widget.MaterialComponents.Toolbar.PrimarySurface"/>
 
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:clipToPadding="false"
+        android:padding="8dp"
+        tools:listitem="@layout/list_item"
+        tools:itemCount="10"/>
+
+<!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/swipe_layout">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recycler_view"
-            android:clipToPadding="false"
-            android:padding="8dp"
-            tools:listitem="@layout/list_item"
-            tools:itemCount="20"/>
-
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout >
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout >-->
 
 </androidx.appcompat.widget.LinearLayoutCompat>

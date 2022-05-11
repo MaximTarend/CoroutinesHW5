@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:layout_marginEnd="12dp"
-            tools:src="@tools:sample/avatars"/>
+            tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/character_name"
