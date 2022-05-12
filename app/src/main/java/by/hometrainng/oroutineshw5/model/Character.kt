@@ -10,16 +10,16 @@ data class Character(
     @PrimaryKey
     val id: Int = 0,
     @ColumnInfo(name = "name")
-    val name: String,
+    val name: String = "",
     @ColumnInfo(name = "species")
-    val species: String,
+    val species: String = "",
     @ColumnInfo(name = "status")
-    val status: String,
+    val status: String = "",
     @ColumnInfo(name = "gender")
-    val gender: String,
+    val gender: String = "",
     @ColumnInfo(name = "hair")
-    val hair: String,
+    val hair: String = "",
     @ColumnInfo(name = "imageURL")
     @SerializedName("img_url")
-    val imageURL: String
+    val imageURL: String = ""
 )

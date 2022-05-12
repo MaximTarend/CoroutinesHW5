@@ -12,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.hometrainng.oroutineshw5.adapter.ItemAdapter
 import by.hometrainng.oroutineshw5.databinding.FragmentListBinding
-import by.hometrainng.oroutineshw5.repository.CharacterRepository
 import by.hometrainng.oroutineshw5.retrofit.FinalSpaceService
+import by.hometrainng.oroutineshw5.roomDB.appDatabase
 import kotlinx.coroutines.launch
 
 
@@ -35,6 +35,10 @@ class FragmentList : Fragment() {
         }
     }
 
+    private val characterDao by lazy(LazyThreadSafetyMode.NONE) {
+        requireContext().appDatabase.characterDao()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,27 +52,43 @@ class FragmentList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            val characters = characterRepository.getCharacters()
-
-            adapter.submitList(characters)
-        }
+        loadCharactersToListAndBD()
 
         with(binding) {
             recyclerView.adapter = adapter
             recyclerView.addItemDecoration(
                 DividerItemDecoration(requireContext(), LinearLayout.VERTICAL)
             )
+            swipeLayout.setOnRefreshListener {
+                loadCharactersToListAndBD()
+                swipeLayout.isRefreshing = false
+            }
         }
     }
 
+    private fun loadCharactersToListAndBD() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                adapter.submitList(characterDao.getCharacters())
+                val characters = characterRepository.getCharacters()
+                characterDao.insertCharacters(characters)
+                adapter.submitList(characters)
+            } catch (e: Throwable) {
+                FAILURE_MESSAGE.showToastMessage()
+            }
+        }
+    }
 
-    private fun showToastMessage(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    private fun String.showToastMessage() {
+        Toast.makeText(context, this, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val FAILURE_MESSAGE = "Upload failure"
     }
 }
