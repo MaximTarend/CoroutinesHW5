@@ -41,10 +41,14 @@ class FragmentItem: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val characterId = args.itemId
-
         with(binding) {
             toolbarCharacter.setupWithNavController(findNavController())
+        }
+        loadCharacterDetails(characterId)
+    }
 
+    private fun loadCharacterDetails(characterId: Int) {
+        with(binding) {
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
                     val character = characterRepository.getCharacterDetails(characterId)
