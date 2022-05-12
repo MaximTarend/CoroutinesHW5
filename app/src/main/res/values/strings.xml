@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">СoroutinesHW5</string>
+    <string name="character_details">Character details</string>
+    <string name="main_toolbar_title">Final Space characters</string>
 </resources>
