@@ -1,17 +1,23 @@
 package by.hometrainng.oroutineshw5.fragments
 
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.hometrainng.oroutineshw5.adapter.ItemAdapter
 import by.hometrainng.oroutineshw5.databinding.FragmentListBinding
+import by.hometrainng.oroutineshw5.extentions.addSpaceDecoration
 import by.hometrainng.oroutineshw5.retrofit.FinalSpaceService
 import by.hometrainng.oroutineshw5.roomDB.appDatabase
 import kotlinx.coroutines.launch
@@ -52,13 +58,12 @@ class FragmentList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getCharactersFromDB()
         loadCharactersToListAndBD()
 
         with(binding) {
             recyclerView.adapter = adapter
-            recyclerView.addItemDecoration(
-                DividerItemDecoration(requireContext(), LinearLayout.VERTICAL)
-            )
+            recyclerView.addSpaceDecoration(SPACE)
             swipeLayout.setOnRefreshListener {
                 loadCharactersToListAndBD()
                 swipeLayout.isRefreshing = false
@@ -66,10 +71,15 @@ class FragmentList : Fragment() {
         }
     }
 
+    private fun getCharactersFromDB() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            adapter.submitList(characterDao.getCharacters())
+        }
+    }
+
     private fun loadCharactersToListAndBD() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                adapter.submitList(characterDao.getCharacters())
                 val characters = characterRepository.getCharacters()
                 characterDao.insertCharacters(characters)
                 adapter.submitList(characters)
@@ -89,6 +99,7 @@ class FragmentList : Fragment() {
     }
 
     companion object {
+        private const val SPACE = 16
         private const val FAILURE_MESSAGE = "Upload failure"
     }
 }

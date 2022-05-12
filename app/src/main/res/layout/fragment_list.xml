@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:id="@+id/linear_layout">
+    android:id="@+id/linear_layout"
+    android:background="#8A92DAD3">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
