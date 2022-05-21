@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import by.hometrainng.oroutineshw5.databinding.FragmentItemBinding
-import by.hometrainng.oroutineshw5.model.Character
 import by.hometrainng.oroutineshw5.retrofit.FinalSpaceService
 import coil.load
 import kotlinx.coroutines.launch

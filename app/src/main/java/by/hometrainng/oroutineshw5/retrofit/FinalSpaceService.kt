@@ -19,8 +19,4 @@ object FinalSpaceService {
     fun provideRepository(): CharacterRepository {
         return CharacterRepository(finalSpaceApi)
     }
-
-    fun provideFinalSpaceApi(): FinalSpaceApi {
-        return finalSpaceApi
-    }
 }

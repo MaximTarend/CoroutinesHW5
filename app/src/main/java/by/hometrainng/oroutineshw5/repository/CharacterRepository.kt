@@ -8,10 +8,10 @@ import kotlinx.coroutines.withContext
 class CharacterRepository(private val finalSpaceApi: FinalSpaceApi) {
 
     suspend fun getCharacters() = withContext(Dispatchers.IO) {
-        FinalSpaceService.provideFinalSpaceApi().getCharacters()
+        finalSpaceApi.getCharacters()
     }
 
     suspend fun getCharacterDetails(id: Int) = withContext(Dispatchers.IO) {
-        FinalSpaceService.provideFinalSpaceApi().getCharacterDetails(id)
+        finalSpaceApi.getCharacterDetails(id)
     }
 }
